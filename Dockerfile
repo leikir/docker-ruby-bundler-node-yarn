@@ -1,8 +1,8 @@
-FROM leikir/ruby-node:ruby-2.3.5-node-6.9.4-alpine
+FROM leikir/ruby-node:ruby-2.3.6-node-6.9.4-stretch
 
 MAINTAINER Leikir Web <web@leikir.io>
 
-RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
+RUN set -ex \
   && for key in \
     6A010C5166006599AA17F08146C2130DFD2497F5 \
   ; do \
@@ -18,7 +18,6 @@ RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
   && tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/yarn --strip-components=1 \
   && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarn \
   && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg \
-  && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz \
-  && apk del .build-deps-yarn
+  && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz
 
 RUN gem install bundler --no-ri --no-rdoc
